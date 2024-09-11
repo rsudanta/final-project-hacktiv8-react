@@ -1,0 +1,75 @@
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 5%, rgba(255, 255, 255, 0) 60%);
+    color: white;
+    display: flex;
+    align-items: end;
+    justify-content: start;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.card-top-picks {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    background-color: rgba(235, 28, 36, 255);
+    display: flex;
+    opacity: 1;
+    z-index: 99;
+    border-radius: 0 0 0 10px;
+    transition: opacity 0.3s;
+}
+
+.item-list:hover {
+    background-color: #2c2c2c;
+    color: white;
+}
+
+.card-rating {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    display: flex;
+    opacity: 1;
+    z-index: 99;
+    transition: opacity 0.3s;
+}
+
+.card:hover .card-rating,
+.card:hover .card-overlay,
+.card:hover .card-top-picks {
+    opacity: 0;
+}
+
+.card-movie:hover {
+    box-shadow: 0 4px 18px 0 rgba(235, 28, 36, 255);
+}
+
+.card-movie {
+    max-height: 30em;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.text-break {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
