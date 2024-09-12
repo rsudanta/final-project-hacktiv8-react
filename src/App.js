@@ -4,11 +4,10 @@ import Navbar from './components/molecules/Navbar';
 import {
   DashboardPage,
   MovieDetailPage,
-  PersonDetailPage,
-  SearchPage,
-  TVDetailPage
+  SearchPage
 } from './pages';
 import NotFound from './pages/NotFound';
+import Watchlist from './pages/Watchlist';
 
 function App() {
   return (
@@ -17,9 +16,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<DashboardPage />} />
+        <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/movie/detail/:id" element={<MovieDetailPage />} />
-        <Route path="/tv/detail/:id" element={<TVDetailPage />} />
-        <Route path="/person/detail/:id" element={<PersonDetailPage />} />
         <Route path="/search/:query" element={<SearchPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

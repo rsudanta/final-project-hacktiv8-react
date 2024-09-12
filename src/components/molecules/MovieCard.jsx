@@ -6,7 +6,7 @@ import NoPhoto from "../../assets/no_photo.jpg"
 export default function MovieCard({ isTopMovie = false, item }) {
     return (
         <>
-            <Link to={`movie/detail/${item.id}`}>
+            <Link to={`/movie/detail/${item.id}`}>
                 <div className="card card-movie">
                     <img src={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : NoPhoto} className="card-img h-100" alt={`Movie poster for '${item.title}'`} />
                     {item.vote_average ? <div className='card-rating px-2 py-2'>

@@ -2,6 +2,10 @@ import star from "../../assets/Star.png"
 import './style.css'
 
 export default function Headeritem({ item }) {
+    const numberWithCommas = (x) => {
+        return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
     return (
         <>
             <div className="row">
@@ -29,7 +33,7 @@ export default function Headeritem({ item }) {
                     <h5>Rating</h5>
                     <div className="d-flex align-items-center">
                         <img style={{ height: '18px' }} src={star} alt="" />
-                        <div className='ms-1'>{item.vote_average ? item.vote_average.toFixed(1) : '-'}<span style={{ color: 'gray' }}>/10</span> ({item.vote_count ?? 0} vote{item.vote_count > 0 && 's'})</div>
+                        <div className='ms-1'>{item.vote_average ? item.vote_average.toFixed(1) : '-'}<span style={{ color: 'gray' }}>/10</span> ({numberWithCommas(item.vote_count) ?? 0} vote{item.vote_count > 0 && 's'})</div>
                     </div>
                     <hr />
 

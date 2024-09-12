@@ -47,7 +47,6 @@ export default function Navbar() {
         }
         navigate(`/search/${searchTerm}`)
         setSearchTerm('')
-        console.log('Search term submitted:', searchTerm);
     }
 
     return (
@@ -64,7 +63,7 @@ export default function Navbar() {
                                 <NavLink className='nav-link' to='/'>Movie</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className='nav-link' to='/tv-series'>TV Series</NavLink>
+                                <NavLink className='nav-link' to='/watchlist'>Watchlist</NavLink>
                             </li>
                         </ul>
                         <form className="d-flex" role="search" onSubmit={handleSubmit}>
@@ -80,7 +79,7 @@ export default function Navbar() {
                                 <ul className="suggestions-list">
                                     {
                                         search.autocomplete.map((item) => (
-                                            (item.media_type === 'movie' || item.media_type === 'tv') &&
+                                            item.media_type === 'movie' &&
                                             <li key={item.id}>
                                                 <Link className='row align-items-center' to={`${item.media_type}/detail/${item.id}`} onClick={handleSelectMovie}>
                                                     <AutocompleteList item={item} />

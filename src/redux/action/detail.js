@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_HOST } from "../../config/api";
 import { axiosOptions } from "./axiosOption";
 import Swal from "sweetalert2";
+import { setLoading } from "./global";
 
 export const getMovieDetail = (id) => dispatch => {
     const url = `${API_HOST.url}/3/movie/${id}?language=en-US`
@@ -9,6 +10,7 @@ export const getMovieDetail = (id) => dispatch => {
 
     axios.request(options)
         .then(function (response) {
+            dispatch(setLoading(false))
             dispatch({ type: 'SET_MOVIE_DETAIL', payload: response.data });
         })
         .catch(function (error) {

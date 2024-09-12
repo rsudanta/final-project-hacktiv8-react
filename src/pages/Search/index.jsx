@@ -12,6 +12,14 @@ export default function SearchPage() {
 
     useEffect(() => {
         dispatch(getSearchMovie(query))
+        return () => {
+            dispatch({
+                type: 'SET_SEARCH_MOVIE', payload: {
+                    results: [],
+                    total_results: 0
+                }
+            })
+        }
     }, [query, dispatch])
 
     const handleLoadMoreMovie = () => {
@@ -23,7 +31,7 @@ export default function SearchPage() {
     return (
         <>
             <div className="container">
-                <section className="mt-4">
+                <section className="my-4">
                     <div className="d-flex align-items-end">
                         <h5 className="fw-bold mb-0">Search results for "{query}"</h5>
                     </div>
@@ -35,7 +43,7 @@ export default function SearchPage() {
                             </div>
                             <div className="row mt-2">
                                 {searchMovie.items.map((item) => (
-                                    <div key={item.id} className="col-3 mt-2">
+                                    <div key={item.id} className="col-12 col-md-6 mt-2">
                                         <SearchCard item={item} />
                                     </div>
                                 ))}
