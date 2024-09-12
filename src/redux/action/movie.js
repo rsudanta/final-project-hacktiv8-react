@@ -1,7 +1,6 @@
 import axios from "axios";
 import { API_HOST } from "../../config/api";
 import { setLoading } from "./global";
-import { API_KEY } from "../../config/apiKey";
 
 const axiosOptions = (url) => ({
     method: 'GET',

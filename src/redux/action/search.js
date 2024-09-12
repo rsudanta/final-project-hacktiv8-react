@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_HOST } from "../../config/api";
-import { API_KEY } from "../../config/apiKey";
 
 const axiosOptions = (query, page) => ({
     method: 'GET',
