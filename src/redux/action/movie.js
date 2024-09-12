@@ -21,5 +21,6 @@ export const getNowPlayingMovie = (page = 1) => dispatch => {
         })
         .catch(function (error) {
             console.error(error);
+            dispatch(setLoading(false))
         });
 };

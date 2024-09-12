@@ -1,15 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MovieCard from "../../components/molecules/MovieCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getNowPlayingMovie, setLoading } from "../../redux/action";
+import TopRatedMovieList from "../../components/molecules/TopRatedMovieList";
 
 export default function DashboardPage() {
-    const movies = useSelector((state) => state.movieReducer)
     const dispatch = useDispatch()
+    const { items, hasMore, page } = useSelector((state) => state.movieReducer);
+    const { isLoading } = useSelector((state) => state.globalReducer);
+    const loader = useRef(null);
+
     useEffect(() => {
-        dispatch(setLoading(true))
-        dispatch(getNowPlayingMovie())
-    }, [])
+        if (page === 1) {
+            dispatch(setLoading(true))
+            dispatch(getNowPlayingMovie(page));
+        }
+    }, [dispatch, page]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !isLoading) {
+                    dispatch(getNowPlayingMovie(page));
+                }
+            },
+            { threshold: 0.9 }
+        );
+
+        if (loader.current) {
+            observer.observe(loader.current);
+        }
+
+        return () => {
+            if (loader.current) {
+                observer.unobserve(loader.current);
+            }
+        };
+    }, [dispatch, hasMore, page]);
+
+    const loadMore = () => {
+        dispatch(getNowPlayingMovie(page))
+    }
 
     return (
         <>
@@ -26,14 +57,9 @@ export default function DashboardPage() {
                                 </div>
                                 <div className="d-flex flex-column justify-content-between" style={{ height: '100%' }}>
                                     <hr className="my-0" />
-                                    <TopItemList />
+                                    <TopRatedMovieList />
                                     <hr className="my-0" />
-                                    <TopItemList />
-                                    <hr className="my-0" />
-                                    <TopItemList />
-                                    <hr className="my-0" />
-                                    <TopItemList />
-                                    <hr className="my-0" style={{ borderTop: '0' }} />
+
                                 </div>
                             </div>
                         </div>
@@ -45,13 +71,16 @@ export default function DashboardPage() {
                         <div style={{ color: 'grey', width: '100%', borderBottom: 'solid 2px grey' }} />
                     </div>
                     <div className="row">
-                        {movies.nowPlaying.map((item, idx) => (
+                        {items.map((item, idx) => (
                             <div key={idx} className="col-6 col-md-3 col-lg-2 mt-3">
                                 <MovieCard item={item} />
                             </div>
                         ))}
                     </div>
                 </section>
+                <div className="my-4">
+                    <button ref={loader} onClick={loadMore} className="btn btn-outline-danger w-100">Load More</button>
+                </div>
             </div>
         </>
     )

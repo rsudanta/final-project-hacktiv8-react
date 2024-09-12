@@ -1,59 +1,47 @@
-import axios from 'axios'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import './style.css'
+import { getSearchAutoComplete } from '../../redux/action'
+import AutocompleteList from './AutocompleteList'
+
 export default function Navbar() {
-    const [searchItems, setSearchItems] = useState([])
+    const search = useSelector((state) => state.searchReducer)
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('')
+    const [debounceTimeout, setDebounceTimeout] = useState(null);
 
-    const handleEnterKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            console.log('Enter key pressed with query:', event.target.value);
+    const handleOnSearch = (e) => {
+        const query = e.target.value;
+        if (query.length < 3) {
+            dispatch({ type: 'SET_SEARCH_AUTOCOMPLETE', payload: [] });
         }
-    };
+        setSearchTerm(query);
 
-    const handleOnSearch = (query) => {
-        const options = {
-            method: 'GET',
-            url: `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZDE4Y2Y1NWM2YzY2MmIwMGZiY2IzOGQ4OGNjMjc3NCIsIm5iZiI6MTcyNTk2NzE5My4zOTYyNzIsInN1YiI6IjVmMjNlNTg5ZDc1YmQ2MDAzN2Y3NWYwMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bgI4Jm8nZyVGJ8Xtk3KY0xdd-82PLRx_K2gnOg01ags'
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+
+        const newTimeout = setTimeout(() => {
+            if (query) {
+                dispatch(getSearchAutoComplete(query));
             }
-        };
+        }, 500);
 
-        axios.request(options)
-            .then(function (response) {
-                setSearchItems(response.data.results);
-            })
-            .catch(function (error) {
-                console.error(error);
-                setSearchItems([]);
-            });
+        setDebounceTimeout(newTimeout);
     }
 
-    const formatResult = (item) => {
-        return (
-            <>
-                <Link className='row' to={`/detail/${item.id}`}>
-                    <div className="col-2">
-                        <img className='w-100' src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} alt="" />
-                    </div>
-                    <div className="col-10">
-                        <span className='text-wrap' style={{ display: 'block', textAlign: 'left' }}>{item.title}</span>
-                        <span style={{ display: 'block', textAlign: 'left' }}>{item.release_date ? new Date(item.release_date).getFullYear() : '-'}</span>
-                    </div>
-                </Link>
-            </>
-        )
+    const handleSelectMovie = () => {
+        setSearchTerm('')
     }
 
-    const handleOnSelect = (item) => {
-        console.log('Selected item:', item);
-        // For example, redirect to a movie detail page:
-        // window.location.href = `/movie/${item.id}`;
-    };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        navigate(`/search/${searchTerm}`)
+        setSearchTerm('')
+        console.log('Search term submitted:', searchTerm);
+    }
 
     return (
         <>
@@ -66,36 +54,39 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Movie</a>
+                                <NavLink className='nav-link' to='/'>Movie</NavLink>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">TV Series</a>
+                                <NavLink className='nav-link' to='/tv-series'>TV Series</NavLink>
                             </li>
                         </ul>
-                        <form className="d-flex" role="search">
-                            <div style={{ width: '100%', minWidth: '300px' }}>
-                                <div onKeyDown={handleEnterKeyPress}>
-                                    <ReactSearchAutocomplete
-                                        items={searchItems}
-                                        resultStringKeyName='id'
-                                        fuseOptions={{ keys: ["title", "release_date"] }}
-                                        inputDebounce={100}
-                                        onSearch={handleOnSearch}
-                                        onSelect={handleOnSelect}
-                                        showIcon={false}
-                                        autoFocus
-                                        maxResults={5}
-                                        showNoResults={false}
-                                        styling={{ borderRadius: '4px', backgroundColor: 'var(--bs-body-bg)', border: 'var(--bs-border-width) solid var(--bs-border-color)', color: 'var(--bs-body-color)', fontFamily: '  font-family: "Poppins", sans-serif;', hoverBackgroundColor: 'black' }}
-                                        formatResult={formatResult}
-                                        placeholder='Search'
-                                    />
-                                </div>
-                            </div>
+                        <form className="d-flex" role="search" onSubmit={handleSubmit}>
+                            <input
+                                className="form-control mr-sm-2 autocomplete"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                                value={searchTerm}
+                                onChange={handleOnSearch}
+                            />
+                            {searchTerm.length > 2 && search.autocomplete.length > 0 &&
+                                <ul className="suggestions-list">
+                                    {
+                                        search.autocomplete.map((item) => (
+                                            <li key={item.id}>
+                                                <Link className='row align-items-center' to={`${item.media_type}/detail/${item.id}`} onClick={handleSelectMovie}>
+                                                    <AutocompleteList item={item} />
+                                                </Link>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            }
                         </form>
+
                     </div>
                 </div>
-            </nav>
+            </nav >
         </>
     )
 }

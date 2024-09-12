@@ -1,13 +1,19 @@
-const initState = {
-    nowPlaying: [],
+const movieInitialState = {
+    items: [],
+    hasMore: true,
+    page: 1,
 };
 
-export const movieReducer = (state = initState, action) => {
-    if (action.type === 'SET_NOW_PLAYING_MOVIE') {
-        return {
-            ...state,
-            nowPlaying: action.payload
-        };
+export const movieReducer = (state = movieInitialState, action) => {
+    switch (action.type) {
+        case 'SET_NOW_PLAYING_MOVIE':
+            return {
+                ...state,
+                items: [...state.items, ...action.payload],
+                page: state.page + 1,
+                hasMore: action.payload.length > 0
+            };
+        default:
+            return state;
     }
-    return state;
 };
