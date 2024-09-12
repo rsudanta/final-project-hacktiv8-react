@@ -7,7 +7,7 @@ const axiosOptions = (query, page) => ({
     url: `${API_HOST.url}/3/search/multi?query=${query}&include_adult=false&language=en-US&page=${page}`,
     headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${API_KEY.token}`
+        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
     }
 });
 

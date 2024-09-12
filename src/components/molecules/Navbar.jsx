@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import './style.css'
@@ -11,6 +11,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('')
     const [debounceTimeout, setDebounceTimeout] = useState(null);
+    const collapseRef = useRef(null);
 
     const handleOnSearch = (e) => {
         const query = e.target.value;
@@ -34,10 +35,16 @@ export default function Navbar() {
 
     const handleSelectMovie = () => {
         setSearchTerm('')
+        if (collapseRef.current) {
+            collapseRef.current.classList.remove('show');
+        }
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (collapseRef.current) {
+            collapseRef.current.classList.remove('show');
+        }
         navigate(`/search/${searchTerm}`)
         setSearchTerm('')
         console.log('Search term submitted:', searchTerm);
@@ -51,7 +58,7 @@ export default function Navbar() {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent" ref={collapseRef}>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
                             <li className="nav-item">
                                 <NavLink className='nav-link' to='/'>Movie</NavLink>

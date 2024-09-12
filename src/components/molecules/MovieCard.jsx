@@ -1,13 +1,14 @@
 import Star from '../atoms/Star'
 import './style.css'
 import { Link } from "react-router-dom"
+import NoPhoto from "../../assets/no_photo.jpg"
 
 export default function MovieCard({ isTopMovie = false, item }) {
     return (
         <>
             <Link to={`movie/detail/${item.id}`}>
                 <div className="card card-movie">
-                    <img src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} className="card-img-top" alt={`Movie poster for '${item.title}'`} />
+                    <img src={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : NoPhoto} className="card-img h-100" alt={`Movie poster for '${item.title}'`} />
                     <div className='card-rating px-2 py-2'>
                         <Star rate={item.vote_average} />
                     </div>

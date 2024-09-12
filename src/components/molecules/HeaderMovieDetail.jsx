@@ -12,7 +12,7 @@ export default function Headeritem({ item }) {
                 </div>
                 <div className="col-12 col-md-8 mt-3 mt-lg-0">
                     <h1>{item.title}</h1>
-                    <p>{new Date(item.release_date).getFullYear()}</p>
+                    <p>{item.release_date && new Date(item.release_date).getFullYear()}</p>
 
                     <p className='mt-4'>{item.overview}
                     </p>
@@ -29,7 +29,7 @@ export default function Headeritem({ item }) {
                     <h5>Rating</h5>
                     <div className="d-flex align-items-center">
                         <img style={{ height: '18px' }} src={star} alt="" />
-                        <div className='ms-1'>{item.vote_average ? item.vote_average.toFixed(1) : '-'}<span style={{ color: 'gray' }}>/10</span></div>
+                        <div className='ms-1'>{item.vote_average ? item.vote_average.toFixed(1) : '-'}<span style={{ color: 'gray' }}>/10</span> ({item.vote_count ?? 0})</div>
                     </div>
                     <hr />
 

@@ -11,6 +11,7 @@ export default function MovieDetailPage() {
     const detail = useSelector((state) => state.detailReducer)
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         dispatch(getMovieDetail(id))
         dispatch(getMovieCasts(id))
 

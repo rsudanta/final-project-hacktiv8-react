@@ -8,7 +8,7 @@ const axiosOptions = (url) => ({
     url: url,
     headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${API_KEY.token}`
+        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
     }
 });
 

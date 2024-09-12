@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import MovieCard from "../../components/molecules/MovieCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getNowPlayingMovie, setLoading } from "../../redux/action";
+import { getNowPlayingMovie, getTopMovie, setLoading } from "../../redux/action";
 import TopRatedMovieList from "../../components/molecules/TopRatedMovieList";
 
 export default function DashboardPage() {
     const dispatch = useDispatch()
-    const { items, hasMore, page } = useSelector((state) => state.movieReducer);
+    const { items, hasMore, page, topMovie } = useSelector((state) => state.movieReducer);
     const { isLoading } = useSelector((state) => state.globalReducer);
     const loader = useRef(null);
 
@@ -14,7 +14,11 @@ export default function DashboardPage() {
         if (page === 1) {
             dispatch(setLoading(true))
             dispatch(getNowPlayingMovie(page));
+            dispatch(getTopMovie())
         }
+
+        console.log(topMovie)
+
     }, [dispatch, page]);
 
     useEffect(() => {
@@ -45,26 +49,35 @@ export default function DashboardPage() {
     return (
         <>
             <div className="container">
-                {/* <section className="mt-4">
-                    <div className="row">
-                        <div className="col-lg-8">
-                            <MovieCard isTopMovie={true} />
-                        </div>
-                        <div className="col-lg-4 mt-4 mt-lg-0">
-                            <div className="card" style={{ height: '100%', color: "white", backgroundColor: '#141414' }}>
-                                <div className="px-4 pt-3 pb-2" style={{ backgroundColor: '#eb1c24' }}>
-                                    <h4><b>Top Rated Movie</b></h4>
-                                </div>
-                                <div className="d-flex flex-column justify-content-between" style={{ height: '100%' }}>
-                                    <hr className="my-0" />
-                                    <TopRatedMovieList />
-                                    <hr className="my-0" />
-
+                {
+                    topMovie.length > 0 && (<section className="mt-4">
+                        <div className="row">
+                            <div className="col-lg-8">
+                                <MovieCard isTopMovie={true} item={topMovie[0]} />
+                            </div>
+                            <div className="col-lg-4 mt-4 mt-lg-0">
+                                <div className="card" style={{ height: '100%', color: "white", backgroundColor: '#141414' }}>
+                                    <div className="px-4 pt-3 pb-2" style={{ backgroundColor: '#eb1c24' }}>
+                                        <h4><b>Top Rated Movie</b></h4>
+                                    </div>
+                                    <div className="d-flex flex-column justify-content-between" style={{ height: '100%' }}>
+                                        <hr className="my-0" />
+                                        {
+                                            topMovie.map((el, idx) => (
+                                                idx !== 0 && (
+                                                    <>
+                                                        <TopRatedMovieList item={el} rank={idx + 1} />
+                                                        <hr className="my-0" />
+                                                    </>
+                                                )
+                                            ))
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section> */}
+                    </section>)
+                }
                 <section className="mt-4">
                     <div className="d-flex align-items-end">
                         <h2 className="fw-bold mb-0" style={{ width: '25%' }}>POPULAR NOW</h2>
