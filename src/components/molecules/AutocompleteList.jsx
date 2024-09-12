@@ -7,8 +7,6 @@ export default function AutocompleteList({ item }) {
                 return 'darkred'
             case 'tv':
                 return 'darkgreen'
-            case 'person':
-                return 'darkblue'
             default:
                 return 'black';
         }
@@ -30,35 +28,6 @@ export default function AutocompleteList({ item }) {
                                 <Tag tag={item.media_type.toUpperCase()} color={tagColor(item.media_type)} />
                             </span>
                             <small style={{ display: 'block', textAlign: 'left', color: 'grey' }}>{item.release_date ? new Date(item.release_date).getFullYear() : '-'}</small>
-                        </div>
-                    </>
-                )
-            }
-            {
-                item.media_type === 'collection' && (
-                    <>
-                        <div className="col-12">
-                            <span className='text-wrap fw-medium' style={{ display: 'block', textAlign: 'left' }}>
-                                {item.title}
-                                <Tag tag={item.media_type.toUpperCase()} color={tagColor(item.media_type)} />
-                            </span>
-                        </div>
-                    </>
-                )
-            }
-            {
-                item.media_type === 'person' && (
-                    <>
-                        {item.profile_path && (
-                            <div className="col-2">
-                                <img className='w-100' src={`https://image.tmdb.org/t/p/w500/${item.profile_path}`} alt="" />
-                            </div>
-                        )}
-                        <div className={item.profile_path ? 'col-10' : 'col-12'}>
-                            <span className='text-wrap fw-medium' style={{ display: 'block', textAlign: 'left' }}>
-                                {item.name}
-                                <Tag tag={item.media_type.toUpperCase()} color={tagColor(item.media_type)} />
-                            </span>
                         </div>
                     </>
                 )

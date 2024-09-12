@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import CastDetail from "../../components/molecules/CastDetail";
 import HeaderMovieDetail from "../../components/molecules/HeaderMovieDetail";
 import { getMovieCasts, getMovieDetail } from "../../redux/action";
-import CastDetail from "../../components/molecules/CastDetail";
 
 export default function MovieDetailPage() {
     const { id } = useParams();
     const dispatch = useDispatch()
     const detail = useSelector((state) => state.detailReducer)
+    const navigate = useNavigate()
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -17,9 +18,13 @@ export default function MovieDetailPage() {
 
         return () => {
             dispatch({ type: 'SET_MOVIE_DETAIL', payload: [] })
-            dispatch({ type: 'SET_MOVIE_CAST', payload: [] })
+            dispatch({ type: 'SET_MOVIE_CASTS', payload: [] })
         }
     }, [dispatch, id])
+
+    const onBack = () => {
+        navigate(-1)
+    }
 
     return (
         <>
@@ -30,7 +35,8 @@ export default function MovieDetailPage() {
                     detail.movieDetailData.backdrop_path && <img className='w-100 h-100' src={`https://image.tmdb.org/t/p/w500/${detail.movieDetailData.backdrop_path}`} alt="" />
 
                 }
-                <div className="header-detail-content mt-4 container">
+                <div className="header-detail-content mt-4 container mb-5">
+                    <p><a onClick={onBack} href="#">Back </a>/ <b>{detail.movieDetailData.title}</b></p>
                     <HeaderMovieDetail
                         item={detail.movieDetailData}
                     />
@@ -48,6 +54,7 @@ export default function MovieDetailPage() {
                             </>
                         )
                     }
+                    <div className="mt-5"></div>
                 </div>
             </div>
         </>

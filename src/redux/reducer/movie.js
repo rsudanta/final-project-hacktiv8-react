@@ -1,5 +1,5 @@
 const movieInitialState = {
-    items: [],
+    nowPlayingMovie: [],
     hasMore: true,
     page: 1,
     topMovie: []
@@ -10,7 +10,7 @@ export const movieReducer = (state = movieInitialState, action) => {
         case 'SET_NOW_PLAYING_MOVIE':
             return {
                 ...state,
-                items: [...state.items, ...action.payload],
+                nowPlayingMovie: [...state.nowPlayingMovie, ...action.payload],
                 page: state.page + 1,
                 hasMore: action.payload.length > 0
             };

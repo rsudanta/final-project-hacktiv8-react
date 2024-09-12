@@ -1,15 +1,8 @@
 import axios from "axios";
 import { API_HOST } from "../../config/api";
+import { axiosOptions } from "./axiosOption";
+import Swal from "sweetalert2";
 import { setLoading } from "./global";
-
-const axiosOptions = (url) => ({
-    method: 'GET',
-    url: url,
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
-    }
-});
 
 export const getNowPlayingMovie = (page = 1) => dispatch => {
     const url = `${API_HOST.url}/3/movie/now_playing?language=en-US&page=${page}`
@@ -18,12 +11,18 @@ export const getNowPlayingMovie = (page = 1) => dispatch => {
     axios
         .request(options)
         .then(function (response) {
-            dispatch({ type: 'SET_NOW_PLAYING_MOVIE', payload: response.data.results });
             dispatch(setLoading(false))
+            dispatch({ type: 'SET_NOW_PLAYING_MOVIE', payload: response.data.results });
         })
         .catch(function (error) {
-            console.error(error);
             dispatch(setLoading(false))
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            console.error(error);
         });
 };
 
@@ -34,11 +33,17 @@ export const getTopMovie = () => dispatch => {
     axios
         .request(options)
         .then(function (response) {
-            dispatch({ type: 'SET_TOP_MOVIE', payload: response.data.results.slice(0, 5) });
             dispatch(setLoading(false))
+            dispatch({ type: 'SET_TOP_MOVIE', payload: response.data.results.slice(0, 5) });
         })
         .catch(function (error) {
-            console.error(error);
             dispatch(setLoading(false))
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            console.error(error);
         });
 };

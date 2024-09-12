@@ -80,6 +80,7 @@ export default function Navbar() {
                                 <ul className="suggestions-list">
                                     {
                                         search.autocomplete.map((item) => (
+                                            (item.media_type === 'movie' || item.media_type === 'tv') &&
                                             <li key={item.id}>
                                                 <Link className='row align-items-center' to={`${item.media_type}/detail/${item.id}`} onClick={handleSelectMovie}>
                                                     <AutocompleteList item={item} />

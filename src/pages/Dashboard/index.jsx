@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import MovieCard from "../../components/molecules/MovieCard";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getNowPlayingMovie, getTopMovie, setLoading } from "../../redux/action";
+import MovieCard from "../../components/molecules/MovieCard";
 import TopRatedMovieList from "../../components/molecules/TopRatedMovieList";
+import { getNowPlayingMovie, getTopMovie, setLoading } from "../../redux/action";
 
 export default function DashboardPage() {
     const dispatch = useDispatch()
-    const { items, hasMore, page, topMovie } = useSelector((state) => state.movieReducer);
+    const { nowPlayingMovie, hasMore, page, topMovie } = useSelector((state) => state.movieReducer);
     const { isLoading } = useSelector((state) => state.globalReducer);
     const loader = useRef(null);
 
@@ -84,16 +84,19 @@ export default function DashboardPage() {
                         <div style={{ color: 'grey', width: '100%', borderBottom: 'solid 2px grey' }} />
                     </div>
                     <div className="row">
-                        {items.map((item, idx) => (
+                        {nowPlayingMovie.map((item, idx) => (
                             <div key={idx} className="col-6 col-md-3 col-lg-2 mt-3">
                                 <MovieCard item={item} />
                             </div>
                         ))}
                     </div>
                 </section>
-                <div className="my-4">
-                    <button ref={loader} onClick={loadMore} className="btn btn-outline-danger w-100">Load More</button>
-                </div>
+                {
+                    !isLoading && hasMore && (<div className="my-4 text-center">
+                        <button ref={loader} onClick={loadMore} className="btn btn-sm btn-outline-danger px-5">Load More</button>
+                    </div>)
+                }
+
             </div>
         </>
     )

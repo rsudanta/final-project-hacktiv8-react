@@ -9,9 +9,9 @@ export default function MovieCard({ isTopMovie = false, item }) {
             <Link to={`movie/detail/${item.id}`}>
                 <div className="card card-movie">
                     <img src={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : NoPhoto} className="card-img h-100" alt={`Movie poster for '${item.title}'`} />
-                    <div className='card-rating px-2 py-2'>
+                    {item.vote_average ? <div className='card-rating px-2 py-2'>
                         <Star rate={item.vote_average} />
-                    </div>
+                    </div> : <></>}
                     {isTopMovie ? <div className="card-top-picks px-2 py-2 fw-medium">
                         <h5 className='mb-0'>#1</h5>
                     </div> : <></>}

@@ -1,15 +1,7 @@
 import axios from "axios";
 import { API_HOST } from "../../config/api";
-import { setLoading } from "./global";
-
-const axiosOptions = (url) => ({
-    method: 'GET',
-    url: url,
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
-    }
-});
+import { axiosOptions } from "./axiosOption";
+import Swal from "sweetalert2";
 
 export const getMovieDetail = (id) => dispatch => {
     const url = `${API_HOST.url}/3/movie/${id}?language=en-US`
@@ -17,12 +9,15 @@ export const getMovieDetail = (id) => dispatch => {
 
     axios.request(options)
         .then(function (response) {
-            console.log(response.data)
             dispatch({ type: 'SET_MOVIE_DETAIL', payload: response.data });
-            setLoading(false)
         })
         .catch(function (error) {
-            setLoading(false)
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
             console.error(error);
         });
 }
@@ -33,12 +28,15 @@ export const getMovieCasts = (id) => dispatch => {
 
     axios.request(options)
         .then(function (response) {
-            console.log(response.data)
-            dispatch({ type: 'SET_MOVIE_CASTS', payload: response.data.cast.slice(0,9) });
-            setLoading(false)
+            dispatch({ type: 'SET_MOVIE_CASTS', payload: response.data.cast.slice(0, 9) });
         })
         .catch(function (error) {
-            setLoading(false)
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
             console.error(error);
         });
 }

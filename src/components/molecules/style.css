@@ -155,8 +155,32 @@ form.d-flex {
 }
 
 .search-card-img {
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
     object-fit: fill;
     border-radius: 4px
+}
+
+.v-line {
+    border-left: 6px solid #eb1c24;
+    border-radius: 4px;
+}
+
+.btn-outline-danger:hover {
+    background-color: #eb1c24 !important;
+    color: white !important;
+}
+
+.btn-outline-danger {
+    color: #eb1c24 !important;
+    border: 1px solid #eb1c24 !important;
+}
+
+.card-search {
+    background-color: #1a1c1f
+}
+
+.card-movie:hover, .card-search:hover {
+    box-shadow: 0 4px 18px 0 rgba(235, 28, 36, 255);
+    background-color: #2c2c2c;
 }
