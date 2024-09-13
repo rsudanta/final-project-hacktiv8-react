@@ -13,6 +13,7 @@ export default function Navbar() {
     const [debounceTimeout, setDebounceTimeout] = useState(null);
     const collapseRef = useRef(null);
     const autocompleteRef = useRef(null)
+    const [isMouseOverSuggestions, setIsMouseOverSuggestions] = useState(false);
 
     const handleOnSearch = (e) => {
         const query = e.target.value;
@@ -36,7 +37,9 @@ export default function Navbar() {
 
     const handleSelectMovie = () => {
         setSearchTerm('')
-
+        if (collapseRef.current) {
+            collapseRef.current.classList.remove('show');
+        }
     }
 
     const handleSubmit = (event) => {
@@ -47,6 +50,32 @@ export default function Navbar() {
         navigate(`/search/${searchTerm}`)
         setSearchTerm('')
     }
+
+    const handleBlur = () => {
+        if (!isMouseOverSuggestions) {
+            setTimeout(() => {
+                if (!isMouseOverSuggestions) {
+                    if (autocompleteRef.current) {
+                        autocompleteRef.current.classList.add('d-none');
+                    }
+                }
+            }, 100);
+        }
+    };
+
+    const handleFocus = () => {
+        if (autocompleteRef.current) {
+            autocompleteRef.current.classList.remove('d-none');
+        }
+    };
+
+    const handleMouseEnter = () => {
+        setIsMouseOverSuggestions(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsMouseOverSuggestions(false);
+    };
 
     return (
         <>
@@ -72,15 +101,14 @@ export default function Navbar() {
                                 placeholder="Search"
                                 aria-label="Search"
                                 value={searchTerm}
-                                onFocus={() => {
-                                    if (autocompleteRef.current) {
-                                        autocompleteRef.current.classList.remove('d-none')
-                                    }
-                                }}
+                                onBlur={handleBlur}
+                                onFocus={handleFocus}
                                 onChange={handleOnSearch}
                             />
                             {searchTerm.length > 2 && search.autocomplete.length > 0 &&
-                                <ul className="suggestions-list" ref={autocompleteRef}>
+                                <ul className="suggestions-list" ref={autocompleteRef}
+                                    onMouseEnter={handleMouseEnter}
+                                    onMouseLeave={handleMouseLeave}>
                                     {
                                         search.autocomplete.map((item) => (
                                             item.media_type === 'movie' &&

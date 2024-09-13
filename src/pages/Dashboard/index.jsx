@@ -20,16 +20,15 @@ export default function DashboardPage() {
         }
     }, [dispatch, page]);
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            if (entries[0].isIntersecting && hasMore && !isLoading) {
-                dispatch(getNowPlayingMovie(page));
-            }
-        },
-        { threshold: 0.9 }
-    );
-
     useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !isLoading) {
+                    dispatch(getNowPlayingMovie(page));
+                }
+            },
+            { threshold: 0.9 }
+        );
         const loaderElement = loader.current;
 
         if (loaderElement) {
@@ -41,7 +40,7 @@ export default function DashboardPage() {
                 observer.unobserve(loaderElement);
             }
         };
-    }, [dispatch, hasMore, page, isLoading, observer]);
+    }, [dispatch, hasMore, page, isLoading]);
 
     const loadMore = () => {
         dispatch(getNowPlayingMovie(page))
