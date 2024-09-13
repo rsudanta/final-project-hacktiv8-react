@@ -8,9 +8,12 @@ const movieInitialState = {
 export const movieReducer = (state = movieInitialState, action) => {
     switch (action.type) {
         case 'SET_NOW_PLAYING_MOVIE':
+            const existingMovieIds = new Set(state.nowPlayingMovie.map(movie => movie.id));
+            const newMovies = action.payload.filter(movie => !existingMovieIds.has(movie.id));
+
             return {
                 ...state,
-                nowPlayingMovie: [...state.nowPlayingMovie, ...action.payload],
+                nowPlayingMovie: [...state.nowPlayingMovie, ...newMovies],
                 page: state.page + 1,
                 hasMore: action.payload.length > 0
             };
