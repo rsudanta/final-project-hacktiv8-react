@@ -5,7 +5,20 @@ export default function Headeritem({ item }) {
     const numberWithCommas = (x) => {
         return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate(); 
+        const monthIndex = date.getMonth();
+        const year = date.getFullYear(); 
+
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        return `${day} ${months[monthIndex]} ${year}`;
+    }
     return (
         <>
             <div className="row">
@@ -40,6 +53,11 @@ export default function Headeritem({ item }) {
                     <h5>Language</h5>
                     <p> {item.spoken_languages && item.spoken_languages.length > 0
                         ? item.spoken_languages.map(language => language.english_name).join(', ')
+                        : '-'}</p>
+                    <hr />
+                    <h5>Release Date</h5>
+                    <p> {item.release_date
+                        ? formatDate(item.release_date)
                         : '-'}</p>
                     <hr />
                 </div>

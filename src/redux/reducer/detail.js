@@ -1,7 +1,8 @@
 const initState = {
     movieDetailData: [],
     movieCasts: [],
-    isAlreadyInWatchlist: false
+    isAlreadyInWatchlist: false,
+    similarMovie: []
 };
 
 export const detailReducer = (state = initState, action) => {
@@ -26,6 +27,12 @@ export const detailReducer = (state = initState, action) => {
         return {
             ...state,
             movieCasts: action.payload
+        };
+    }
+    else if (action.type === 'SET_SIMILAR_MOVIE') {
+        return {
+            ...state,
+            similarMovie: action.payload
         };
     }
     return state;

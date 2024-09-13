@@ -42,3 +42,22 @@ export const getMovieCasts = (id) => dispatch => {
             console.error(error);
         });
 }
+
+export const getSimilarMovie = (id) => dispatch => {
+    const url = `${API_HOST.url}/3/movie/${id}/similar?language=en-US&page=1`
+    const options = axiosOptions(url)
+
+    axios.request(options)
+        .then(function (response) {
+            dispatch({ type: 'SET_SIMILAR_MOVIE', payload: response.data.results.slice(0, 5) });
+        })
+        .catch(function (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            console.error(error);
+        });
+}

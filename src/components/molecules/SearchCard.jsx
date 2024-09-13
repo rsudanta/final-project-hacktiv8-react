@@ -7,8 +7,10 @@ export default function SearchCard({ item }) {
         <><Link to={`/movie/detail/${item.id}`}> <div className="card card-search">
             <div className="card-body">
                 <div className="d-flex align-items-center">
-                    <img className="search-card-img"
-                        src={item.poster_path ? `https://image.tmdb.org/t/p/w500/${item.poster_path}` : NoPhoto} alt={`Poster for ${item.title}`} />
+                    <div>
+                        <img className="search-card-img"
+                            src={item.poster_path ? `https://image.tmdb.org/t/p/w500/${item.poster_path}` : NoPhoto} alt={`Poster for ${item.title}`} />
+                    </div>
                     <div className="ms-3">
                         <div className="d-flex">
                             <h5 style={{ fontSize: 'large' }} className="text-break mb-0">{item.title}</h5>
