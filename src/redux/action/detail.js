@@ -1,7 +1,7 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import { API_HOST } from "../../config/api";
 import { axiosOptions } from "./axiosOption";
-import Swal from "sweetalert2";
 import { setLoading } from "./global";
 
 export const getMovieDetail = (id) => dispatch => {
@@ -16,7 +16,7 @@ export const getMovieDetail = (id) => dispatch => {
         .catch(function (error) {
             Swal.fire({
                 title: 'Error!',
-                text: error.message,
+                text: "error.message",
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

@@ -72,11 +72,6 @@ export default function Navbar() {
                                 placeholder="Search"
                                 aria-label="Search"
                                 value={searchTerm}
-                                onBlur={() => {
-                                    if (autocompleteRef.current) {
-                                        autocompleteRef.current.classList.add('d-none');
-                                    }
-                                }}
                                 onFocus={() => {
                                     if (autocompleteRef.current) {
                                         autocompleteRef.current.classList.remove('d-none')
