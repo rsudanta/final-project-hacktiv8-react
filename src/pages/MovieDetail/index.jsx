@@ -74,8 +74,8 @@ export default function MovieDetailPage() {
                 }
                 <div className="header-detail-content mt-4 container mb-5" ref={absoluteElementRef}>
                     {isLoading ? <DetailSkeleton /> : (<>
-                        <div className="d-flex justify-content-between">
-                            <p><button className="btn btn-back" onClick={onBack} >Back </button>/ <b>{movieDetailData.title}</b></p>
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                            <p className="mb-0"><button className="btn btn-back mb-1" onClick={onBack} >Back</button> / <span className="fw-semibold">{movieDetailData.title}</span></p>
                             {isAlreadyInWatchlist ? (<button onClick={removeFromWatchlist} className="btn btn-bookmarks"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-dash-fill" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5M6 6a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1z" />
                             </svg><span className="ms-1">Remove from Watchlist</span></button>) : (<button onClick={addToWatchList} className="btn-bookmarks btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
