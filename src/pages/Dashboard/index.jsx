@@ -18,9 +18,6 @@ export default function DashboardPage() {
             dispatch(getNowPlayingMovie(page));
             dispatch(getTopMovie())
         }
-
-        console.log(topMovie)
-
     }, [dispatch, page]);
 
     useEffect(() => {
@@ -32,17 +29,18 @@ export default function DashboardPage() {
             },
             { threshold: 0.9 }
         );
+        const loaderElement = loader.current;
 
-        if (loader.current) {
-            observer.observe(loader.current);
+        if (loaderElement) {
+            observer.observe(loaderElement);
         }
 
         return () => {
-            if (loader.current) {
-                observer.unobserve(loader.current);
+            if (loaderElement) {
+                observer.unobserve(loaderElement);
             }
         };
-    }, [dispatch, hasMore, page]);
+    }, [dispatch, hasMore, page, isLoading]);
 
     const loadMore = () => {
         dispatch(getNowPlayingMovie(page))

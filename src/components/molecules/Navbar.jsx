@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import './style.css'
 import { getSearchAutoComplete } from '../../redux/action'
 import AutocompleteList from './AutocompleteList'
+import './style.css'
 
 export default function Navbar() {
     const search = useSelector((state) => state.searchReducer)
