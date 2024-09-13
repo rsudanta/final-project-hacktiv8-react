@@ -9,7 +9,7 @@ export const getSearchAutoComplete = (query, page = 1) => dispatch => {
 
     axios.request(options)
         .then(function (response) {
-            dispatch({ type: 'SET_SEARCH_AUTOCOMPLETE', payload: response.data.results.slice(0, 5) });
+            dispatch({ type: 'SET_SEARCH_AUTOCOMPLETE', payload: response.data.results });
         })
         .catch(function (error) {
             console.error(error);

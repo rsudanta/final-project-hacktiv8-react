@@ -13,9 +13,11 @@ const initState = {
 
 export const searchReducer = (state = initState, action) => {
     if (action.type === 'SET_SEARCH_AUTOCOMPLETE') {
+        const moviesOnly = action.payload.filter(movie => movie.media_type === 'movie');
+
         return {
             ...state,
-            autocomplete: action.payload
+            autocomplete: moviesOnly.slice(0, 5)
         };
     } else if (action.type === 'SET_SEARCH_MOVIE') {
         return {
