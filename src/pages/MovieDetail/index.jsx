@@ -118,7 +118,7 @@ export default function MovieDetailPage() {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="mb-3">
-                                            <SectionTitle title="Similar Movie" />
+                                            <SectionTitle title="Similar Movies" />
                                         </div>
                                         {similarMovie.length > 0 ? similarMovie.map((item) => (
                                             <div className="mt-2">
