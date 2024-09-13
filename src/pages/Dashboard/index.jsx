@@ -66,10 +66,7 @@ export default function DashboardPage() {
                                             {
                                                 topMovie.map((el, idx) => (
                                                     idx !== 0 && (
-                                                        <>
-                                                            <TopRatedMovieList item={el} rank={idx + 1} />
-                                                            <hr className="my-0" />
-                                                        </>
+                                                        <TopRatedMovieList item={el} rank={idx + 1} key={idx} />
                                                     )
                                                 ))
                                             }

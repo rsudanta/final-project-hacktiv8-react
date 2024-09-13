@@ -26,6 +26,7 @@ export default function TopRatedMovieList({ item, rank }) {
                     </div>
                 </div>
             </Link>
+            <hr className="my-0" />
         </>
     )
 }

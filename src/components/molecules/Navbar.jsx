@@ -12,6 +12,7 @@ export default function Navbar() {
     const [searchTerm, setSearchTerm] = useState('')
     const [debounceTimeout, setDebounceTimeout] = useState(null);
     const collapseRef = useRef(null);
+    const autocompleteRef = useRef(null)
 
     const handleOnSearch = (e) => {
         const query = e.target.value;
@@ -35,9 +36,7 @@ export default function Navbar() {
 
     const handleSelectMovie = () => {
         setSearchTerm('')
-        if (collapseRef.current) {
-            collapseRef.current.classList.remove('show');
-        }
+
     }
 
     const handleSubmit = (event) => {
@@ -73,10 +72,20 @@ export default function Navbar() {
                                 placeholder="Search"
                                 aria-label="Search"
                                 value={searchTerm}
+                                onBlur={() => {
+                                    if (autocompleteRef.current) {
+                                        autocompleteRef.current.classList.add('d-none');
+                                    }
+                                }}
+                                onFocus={() => {
+                                    if (autocompleteRef.current) {
+                                        autocompleteRef.current.classList.remove('d-none')
+                                    }
+                                }}
                                 onChange={handleOnSearch}
                             />
                             {searchTerm.length > 2 && search.autocomplete.length > 0 &&
-                                <ul className="suggestions-list">
+                                <ul className="suggestions-list" ref={autocompleteRef}>
                                     {
                                         search.autocomplete.map((item) => (
                                             item.media_type === 'movie' &&
