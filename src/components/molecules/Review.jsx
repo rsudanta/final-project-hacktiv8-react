@@ -34,6 +34,6 @@ export default function Review({ item }) {
                 <div className='ms-1'><span className="fw-semibold">{item.author_details.rating ? (item.author_details.rating) : '-'}</span><span style={{ color: 'grey' }}>/10</span></div>
             </div>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: item.content }} className="mt-2" />
+        <div className="mt-2" >{item.content}</div>
         <hr /></>)
 }
